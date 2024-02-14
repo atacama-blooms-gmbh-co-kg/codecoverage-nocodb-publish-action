@@ -1,0 +1,24 @@
+        # Connect to the database and insert the coverage data
+      - name: Extract coverage data and publish
+        run:
+          # Example script to extract data and publish
+          REPO_NAME="${GITHUB_REPOSITORY}"
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+
+          # Extract line coverage from the Cobertura report
+          COVERAGE_PERCENTAGE=$(cat target/scala-2.13/coverage-report/cobertura.xml | grep -m1 -Po 'line-rate="\K[^"]*') 
+          NOCODB_TOKEN="${NOCODB_TOKEN}"
+          # Construct JSON payload
+          JSON_PAYLOAD="{\"repository\": \"$REPO_NAME\", \"branch\": \"$BRANCH_NAME\", \"coverage\": \"$COVERAGE_PERCENTAGE\"}"
+          echo $JSON_PAYLOAD 
+          # Make REST call
+          curl -v -k -X POST  -H "xc-token: $NOCODB_TOKEN" -H "Content-Type: application/json" -d "$JSON_PAYLOAD" https://nocodb.k8s.development.atacng.atacama.de/api/v2/tables/m6tnt0gaafb51hn/records
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NOCODB_TOKEN: ${{ secrets.NOCODB_TOKEN }}
+
+        # Upload coverage reports to Codecov
+        - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
