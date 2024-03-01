@@ -17,9 +17,6 @@ outputs: {}
 runs:
   using: 'composite'
   steps:
-    - run: echo "${{ inputs.CODECOV_TOKEN}}"
-      shell: bash
-  steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
