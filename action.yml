@@ -13,6 +13,9 @@ inputs:
   BRANCH_NAME:
     description: 'Name of the branch'
     required: true
+  COVERAGE_FILE_PATH:
+    description: 'Path to the cobertura.xml'
+    required: true
 outputs: {}
 runs:
   using: 'composite'
