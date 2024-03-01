@@ -29,19 +29,21 @@ runs:
         cache: 'sbt'
 
     - name: Compile
-      run: bash -c "sbt compile"
+      run: sbt compile
+      shell: bash
 
     - name: Testing
-      run: bash -c "sbt clean coverage test coverageReport"
+      run: sbt clean coverage test coverageReport
+      shell: bash
    
     - name: Extract coverage data and publish to NOCODB
       run: |
-        bash -c "
         COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'line-rate="\K[^"]*') 
         JSON_PAYLOAD="{\"repository\": \"${{ inputs.REPO_NAME }}\", \"branch\": \"${{ inputs.BRANCH_NAME }}\", \"coverage\": \"$COVERAGE_PERCENTAGE\"}"
         echo $JSON_PAYLOAD 
         curl -v -k -X POST -H "xc-token: ${{ inputs.NOCODB_TOKEN }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD" https://nocodb.k8s.development.atacng.atacama.de/api/v2/tables/m6tnt0gaafb51hn/records
-        "      
+      shell: bash
+      
       env:
         NOCODB_TOKEN: ${{ inputs.NOCODB_TOKEN }}
 
