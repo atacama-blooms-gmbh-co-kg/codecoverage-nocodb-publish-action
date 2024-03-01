@@ -51,4 +51,3 @@ runs:
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ inputs.CODECOV_TOKEN }}
-      shell: bash
