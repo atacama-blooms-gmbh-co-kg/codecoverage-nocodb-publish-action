@@ -16,6 +16,9 @@ inputs:
   COVERAGE_FILE_PATH:
     description: 'Path to the cobertura.xml'
     required: true
+  COVERAGE_FILE_FORMAT:
+    description: 'Format of the coverage file, can be either "cobertura" or "scoverage"'
+    required: true
 outputs: {}
 runs:
   using: 'composite'
@@ -24,10 +27,13 @@ runs:
     - name: Extract coverage data and publish to NOCODB
       run: |
         echo "start"
-        pwd
-        cat target/scala-2.13/scoverage-report/scoverage.xml
-        cat target/scala-2.13/scoverage-report/scoverage.xml | grep -m1 -Po 'statement-rate="\K[^"]*'
-        COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'line-rate="\K[^"]*') 
+        if [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "cobertura" ]
+        then
+          COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'line-rate="\K[^"]*') 
+        elif [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "scoverage" ]
+        then
+          COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'statement-rate="\K[^"]*') 
+        fi
         echo $COVERAGE_PERCENTAGE
         JSON_PAYLOAD="{\"repository\": \"${{ inputs.REPO_NAME }}\", \"branch\": \"${{ inputs.BRANCH_NAME }}\", \"coverage\": \"$COVERAGE_PERCENTAGE\"}"
         echo $JSON_PAYLOAD 
