@@ -24,6 +24,8 @@ runs:
     - name: Extract coverage data and publish to NOCODB
       run: |
         echo "start"
+        pwd
+        cat target/scala-2.13/scoverage-report/scoverage.xml
         cat target/scala-2.13/scoverage-report/scoverage.xml | grep -m1 -Po 'line-rate="\K[^"]*'
         COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'line-rate="\K[^"]*') 
         echo $COVERAGE_PERCENTAGE
