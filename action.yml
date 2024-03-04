@@ -23,7 +23,9 @@ runs:
    
     - name: Extract coverage data and publish to NOCODB
       run: |
+        echo "start"
         COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'line-rate="\K[^"]*') 
+        echo $COVERAGE_PERCENTAGE
         JSON_PAYLOAD="{\"repository\": \"${{ inputs.REPO_NAME }}\", \"branch\": \"${{ inputs.BRANCH_NAME }}\", \"coverage\": \"$COVERAGE_PERCENTAGE\"}"
         echo $JSON_PAYLOAD 
         curl -v -k -X POST -H "xc-token: ${{ inputs.NOCODB_TOKEN }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD" https://nocodb.k8s.development.atacng.atacama.de/api/v2/tables/m6tnt0gaafb51hn/records
