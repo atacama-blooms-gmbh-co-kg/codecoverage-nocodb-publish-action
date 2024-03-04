@@ -26,7 +26,7 @@ runs:
         echo "start"
         pwd
         cat target/scala-2.13/scoverage-report/scoverage.xml
-        cat target/scala-2.13/scoverage-report/scoverage.xml | grep -m1 -Po 'line-rate="\K[^"]*'
+        cat target/scala-2.13/scoverage-report/scoverage.xml | grep -m1 -Po 'statement-rate="\K[^"]*'
         COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'line-rate="\K[^"]*') 
         echo $COVERAGE_PERCENTAGE
         JSON_PAYLOAD="{\"repository\": \"${{ inputs.REPO_NAME }}\", \"branch\": \"${{ inputs.BRANCH_NAME }}\", \"coverage\": \"$COVERAGE_PERCENTAGE\"}"
