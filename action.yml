@@ -19,6 +19,9 @@ inputs:
   COVERAGE_FILE_FORMAT:
     description: 'Format of the coverage file, can be either "cobertura" or "scoverage"'
     required: true
+  GREP_COMMAND:
+    description: 'Grep command to extract coverage percentage from the coverage report'
+    required: true
 outputs: {}
 runs:
   using: 'composite'
@@ -29,7 +32,7 @@ runs:
         echo "start"
         if [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "cobertura" ]
         then
-          COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'line-rate="\K[^"]*') 
+          COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | ${{ inputs.GREP_COMMAND }})
         elif [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "scoverage" ]
         then
           COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'statement-rate="\K[^"]*') 
