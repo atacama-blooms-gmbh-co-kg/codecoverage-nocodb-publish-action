@@ -33,16 +33,28 @@ runs:
     - name: Extract coverage data and publish to NOCODB
       run: |
         echo "start"
+
+        # Check the format of the coverage file
         if [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "cobertura" ]
         then
+
+        # If it's in cobertura format, extract the line rate
           COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | ${{ inputs.LINE_RATE_GREP_COMMAND }})
         elif [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "scoverage" ]
         then
+
+        # If it's in scoverage format, extract the statement rate
           COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | ${{ inputs.STATEMENT_RATE_GREP_COMMAND }})
         fi
+
+        # Output the extracted coverage percentage
         echo $COVERAGE_PERCENTAGE
+
+        # Construct JSON payload for NOCODB
         JSON_PAYLOAD="{\"repository\": \"${{ inputs.REPO_NAME }}\", \"branch\": \"${{ inputs.BRANCH_NAME }}\", \"coverage\": \"$COVERAGE_PERCENTAGE\"}"
         echo $JSON_PAYLOAD 
+
+        # Send data to NOCODB API
         curl -v -k -X POST -H "xc-token: ${{ inputs.NOCODB_TOKEN }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD" https://nocodb.k8s.development.atacng.atacama.de/api/v2/tables/m6tnt0gaafb51hn/records
       shell: bash
       
