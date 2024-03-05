@@ -1,18 +1,17 @@
-# Publish code coverage in nocodDB and CodeCov for scala projects
 
-# Step 1
-Add [this](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/e6f3c4685ab4fabb240bf843e7ba843252570a9c/NocoDB-CodeCov.yml) snippet to your workflow of the repo. You can configure it if you need to change anything. 
+# Publish code coverage in nocodDB and CodeCov using CompositeAction
 
-With different coverage output formats, such as JacocoReport
-To Extract line coverage from the Jacoco report, you can try this. If it does not work, then you have to look at keywords and fields in your report and make changes in this line accordingly.
+## Step 1
+Add [CompositeAction.yml](https://github.com/atacama-blooms-gmbh-co-kg/sbt-codecoverage-template/blob/935bfdd01aa506e2844d9dd977eabaa2d2339551/.github/workflows/CompositeAction.yml) to your workflow of your desired repository. You have to configure, according to your project type. 
 
-COVERAGE_PERCENTAGE=$(cat build/reports/jacoco/test/jacocoTestReport.xml | grep -oP 'counter type="LINE" missed="\K[^"]*' | awk -F'"' '{covered+=$2; missed+=$4} END {print covered/(covered+missed)*100}')
+The major changes, you have to make in these set of codes. for example if you wroking on Gradle project, then you have change test command to __./gradlew test__![Image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/0d89231ad03cc2ceea384577d13a64bdce2dfdb8/Screenshots/Major%20changes.png)
 
-# Step2 
+Here you also need to change the value in the input, depending upon your code coverage format and project type.![Image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/5363e10f4883b312027f15a1f68e3224ca61e915/Screenshots/Major%20changes%202.png)
 
-Add repository token as repository secret, to push code coverage to the CodeCov Server. Once you have the credentials for it, you can easily find the token in CodeCov.
+## Step2 
+Add your desired repository to codecov server in order to get CodeCov token.![Image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/0d89231ad03cc2ceea384577d13a64bdce2dfdb8/Screenshots/Add%20Repo%20to%20CodeCov.png)
 
-You can find a set of codes to upload coverage to CodeCov in Workflows.
+## Step 3
+Add codecov token as repository secret, to push code coverage to the CodeCov Server.![Image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/8ddf3d7fb7dc2b5754dd6ba75d713e8ded42e93c/Screenshots/CodeCov%20Token.png)
 
-# Screenshot
-![image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/0a31fdbd81d923f845ef6608ef9740c95fbd5e86/CodeCov.png)
+
