@@ -19,9 +19,12 @@ inputs:
   COVERAGE_FILE_FORMAT:
     description: 'Format of the coverage file, can be either "cobertura" or "scoverage"'
     required: true
-  GREP_COMMAND:
-    description: 'Grep command to extract coverage percentage from the coverage report'
+  LINE_RATE_GREP_COMMAND:
+    description: 'Grep command to extract line rate from the coverage report'
     required: true
+  STATEMENT_RATE_GREP_COMMAND:
+    description: 'Grep command to extract statement rate from the coverage report'
+    required: true  
 outputs: {}
 runs:
   using: 'composite'
