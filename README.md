@@ -8,7 +8,7 @@ The major changes, you have to make in these set of codes. for example if you ar
 
 ![Image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/0d89231ad03cc2ceea384577d13a64bdce2dfdb8/Screenshots/Major%20changes.png)
 
-Here you also need to change the values in the input, depending upon your code coverage format and project type.
+Here you also need to change the values in the input, depending upon your code coverage format.
 
 ![Image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/5363e10f4883b312027f15a1f68e3224ca61e915/Screenshots/Major%20changes%202.png)
 
