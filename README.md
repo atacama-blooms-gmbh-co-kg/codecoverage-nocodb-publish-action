@@ -18,4 +18,5 @@ Add your desired repository to codecov server in order to get CodeCov token.![Im
 ## Step 3
 Add codecov token as repository secret, to push code coverage to the CodeCov Server.![Image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/8ddf3d7fb7dc2b5754dd6ba75d713e8ded42e93c/Screenshots/CodeCov%20Token.png)
 
-
+## Related to nocoDB 
+we have already set up the nocoDB token as an organization secret(Universal token) and path to nocoDB server in [action.yml](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/e5270c45a8bedb00a40d77fc96d90641c0ee0707/action.yml)
