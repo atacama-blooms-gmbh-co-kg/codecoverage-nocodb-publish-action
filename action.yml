@@ -35,7 +35,7 @@ runs:
           COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | ${{ inputs.GREP_COMMAND }})
         elif [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "scoverage" ]
         then
-          COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | grep -m1 -Po 'statement-rate="\K[^"]*') 
+          COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | ${{ inputs.GREP_COMMAND }}) 
         fi
         echo $COVERAGE_PERCENTAGE
         JSON_PAYLOAD="{\"repository\": \"${{ inputs.REPO_NAME }}\", \"branch\": \"${{ inputs.BRANCH_NAME }}\", \"coverage\": \"$COVERAGE_PERCENTAGE\"}"
