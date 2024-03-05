@@ -5,6 +5,7 @@
 Add [CompositeAction.yml](https://github.com/atacama-blooms-gmbh-co-kg/sbt-codecoverage-template/blob/935bfdd01aa506e2844d9dd977eabaa2d2339551/.github/workflows/CompositeAction.yml) to your workflow of your desired repository. You have to configure, according to your project type. 
 
 The major changes, you have to make in these set of codes. for example if you wroking on Gradle project, then you have change test command to __./gradlew test__
+
 ![Image](https://github.com/atacama-blooms-gmbh-co-kg/codecoverage-nocodb-publish-action/blob/0d89231ad03cc2ceea384577d13a64bdce2dfdb8/Screenshots/Major%20changes.png)
 
 Here you also need to change the value in the input, depending upon your code coverage format and project type.
