@@ -13,18 +13,9 @@ inputs:
   BRANCH_NAME:
     description: 'Name of the branch'
     required: true
-  COVERAGE_FILE_PATH:
-    description: 'Path to the cobertura.xml'
+  COVERAGE_PERCENTAGE:
+    description: 'normalizing the coverage percentage from 0 to 1'
     required: true
-  COVERAGE_FILE_FORMAT:
-    description: 'Format of the coverage file, can be either "cobertura" or "scoverage"'
-    required: true
-  LINE_RATE_GREP_COMMAND:
-    description: 'Grep command to extract line rate from the coverage report'
-    required: true
-  STATEMENT_RATE_GREP_COMMAND:
-    description: 'Grep command to extract statement rate from the coverage report'
-    required: true  
 outputs: {}
 runs:
   using: 'composite'
@@ -33,25 +24,10 @@ runs:
     - name: Extract coverage data and publish to NOCODB
       run: |
         echo "start"
-
-        # Check the format of the coverage file
-        if [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "cobertura" ]
-        then
-
-        # If it's in cobertura format, extract the line rate
-          COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | ${{ inputs.LINE_RATE_GREP_COMMAND }})
-        elif [ "${{ inputs.COVERAGE_FILE_FORMAT }}" = "scoverage" ]
-        then
-
-        # If it's in scoverage format, extract the statement rate
-          COVERAGE_PERCENTAGE=$(cat ${{ inputs.COVERAGE_FILE_PATH }} | ${{ inputs.STATEMENT_RATE_GREP_COMMAND }})
-        fi
-
-        # Output the extracted coverage percentage
-        echo $COVERAGE_PERCENTAGE
+        
 
         # Construct JSON payload for NOCODB
-        JSON_PAYLOAD="{\"repository\": \"${{ inputs.REPO_NAME }}\", \"branch\": \"${{ inputs.BRANCH_NAME }}\", \"coverage\": \"$COVERAGE_PERCENTAGE\"}"
+        JSON_PAYLOAD="{\"repository\": \"${{ inputs.REPO_NAME }}\", \"branch\": \"${{ inputs.BRANCH_NAME }}\", \"coverage\": \"${{ inputs.COVERAGE_PERCENTAGE }}\"}"
         echo $JSON_PAYLOAD 
 
         # Send data to NOCODB API
